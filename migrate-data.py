@@ -1,26 +1,17 @@
+import os
 import psycopg2
 from psycopg2.extras import DictCursor
 import uuid
 from datetime import datetime
 
-# Connect to source database
-src_conn = psycopg2.connect(
-    host='100.101.143.95',
-    port=5432,
-    user='alannuarii',
-    password='Al4nNu4r1',
-    database='quran'
-)
+# Connect using environment variables or placeholder
+SOURCE_DB_URL = os.getenv('SOURCE_DATABASE_URL', 'postgres://user:password@localhost:5432/source_db')
+TARGET_DB_URL = os.getenv('DATABASE_URL', 'postgres://user:password@localhost:5432/target_db')
+
+src_conn = psycopg2.connect(SOURCE_DB_URL)
 src_cur = src_conn.cursor(cursor_factory=DictCursor)
 
-# Connect to target database
-tgt_conn = psycopg2.connect(
-    host='100.101.143.95',
-    port=5432,
-    user='alannuarii',
-    password='Al4nNu4r1',
-    database='db_alquran'
-)
+tgt_conn = psycopg2.connect(TARGET_DB_URL)
 tgt_cur = tgt_conn.cursor(cursor_factory=DictCursor)
 
 try:

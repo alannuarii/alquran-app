@@ -3,7 +3,7 @@ pipeline {
 
     environment {
         DOCKER_IMAGE = 'alquran-app'
-        DOCKER_PORT = '3000'
+        DOCKER_PORT = '3019'
     }
 
     stages {
@@ -15,7 +15,7 @@ pipeline {
         
         stage('Load Environment Variables') {
             steps {
-                withCredentials([file(credentialsId: 'alquran-env-secret', variable: 'ENV_FILE')]) {
+                withCredentials([file(credentialsId: 'alquran-env', variable: 'ENV_FILE')]) {
                     sh 'cp $ENV_FILE .env'
                 }
             }
@@ -39,7 +39,7 @@ pipeline {
                 sh """
                 docker stop ${DOCKER_IMAGE} || true
                 docker rm ${DOCKER_IMAGE} || true
-                docker run -d --name ${DOCKER_IMAGE} -p ${DOCKER_PORT}:3000 --env-file .env ${DOCKER_IMAGE}:latest
+                docker run -d --name ${DOCKER_IMAGE} --restart always -p ${DOCKER_PORT}:3000 --env-file .env ${DOCKER_IMAGE}:latest
                 """
             }
         }

@@ -61,10 +61,11 @@
   }
 
   function startCompass() {
+    if (typeof window === 'undefined') return;
     if ('ondeviceorientationabsolute' in window) {
       (window as any).addEventListener('deviceorientationabsolute', handleOrientation, true);
     } else if ('ondeviceorientation' in window) {
-      window.addEventListener('deviceorientation', handleOrientation, true);
+      (window as any).addEventListener('deviceorientation', handleOrientation, true);
     } else {
       error = 'Perangkat Anda tidak mendukung sensor kompas.';
       return;

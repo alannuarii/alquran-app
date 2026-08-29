@@ -131,7 +131,7 @@
 			<div class="p-6">
 				<div class="flex items-center justify-between mb-6">
 					<h2 class="text-xl font-bold">Program Khatam Baru</h2>
-					<button onclick={() => showNewPlanModal = false} class="text-muted-foreground hover:text-foreground">
+					<button onclick={() => showNewPlanModal = false} class="text-muted-foreground hover:text-foreground" aria-label="Tutup modal">
 						<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
 					</button>
 				</div>
