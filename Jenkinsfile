@@ -25,8 +25,8 @@ pipeline {
             steps {
                 sh '''
                     echo "Downloading portable Node.js to avoid Docker-in-Docker volume mount issues..."
-                    curl -fsSL https://nodejs.org/dist/v20.18.0/node-v20.18.0-linux-x64.tar.xz | tar -xJ
-                    export PATH="\$(pwd)/node-v20.18.0-linux-x64/bin:\$PATH"
+                    curl -fsSL https://nodejs.org/dist/v20.20.2/node-v20.20.2-linux-x64.tar.xz | tar -xJ
+                    export PATH="\$(pwd)/node-v20.20.2-linux-x64/bin:\$PATH"
                     
                     npm ci
                     npx drizzle-kit push
