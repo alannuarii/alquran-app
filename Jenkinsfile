@@ -29,7 +29,7 @@ pipeline {
                     export PATH="\$(pwd)/node-v20.20.2-linux-x64/bin:\$PATH"
                     
                     npm ci
-                    npx drizzle-kit push
+                    npx drizzle-kit push --force
                 '''
             }
         }
@@ -52,8 +52,8 @@ pipeline {
 
         stage('Health Check') {
             steps {
-                sleep 5
-                sh "curl -f http://localhost:${DOCKER_PORT}/ || exit 1"
+                sleep 10
+                sh "docker exec ${DOCKER_IMAGE} wget -q --spider http://localhost:3000/ || exit 1"
             }
         }
     }
