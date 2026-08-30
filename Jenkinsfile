@@ -55,7 +55,7 @@ pipeline {
                 sh """
                     sleep 10
                     for i in 1 2 3 4 5; do
-                        if docker exec ${DOCKER_IMAGE} wget -q --spider http://localhost:3000/ 2>/dev/null; then
+                        if docker exec ${DOCKER_IMAGE} wget -qO /dev/null --timeout=5 http://localhost:3000/login 2>/dev/null; then
                             echo "Health check passed!"
                             exit 0
                         fi
