@@ -23,7 +23,7 @@ pipeline {
 
         stage('Drizzle Database Push') {
             steps {
-                sh 'docker run --rm -v $(pwd):/app -w /app --env-file .env node:20-alpine sh -c "npm ci && npx drizzle-kit push"'
+                sh """docker run --rm -v \$(pwd):/app -w /app --env-file .env node:20-alpine sh -c 'npm ci && npx drizzle-kit push'"""
             }
         }
 
