@@ -7,10 +7,14 @@ import type { RequestEvent } from '@sveltejs/kit';
 import { Google } from 'arctic';
 import { env } from '$env/dynamic/private';
 
+const redirectURI =
+	env.GOOGLE_REDIRECT_URI ||
+	(env.ORIGIN ? `${env.ORIGIN}/auth/google/callback` : 'http://localhost:3000/auth/google/callback');
+
 export const google = new Google(
 	env.GOOGLE_CLIENT_ID,
 	env.GOOGLE_CLIENT_SECRET,
-	'http://localhost:3000/auth/google/callback'
+	redirectURI
 );
 
 export function generateSessionToken(): string {
@@ -62,7 +66,8 @@ export function setSessionTokenCookie(event: RequestEvent, token: string, expire
 		httpOnly: true,
 		sameSite: 'lax',
 		expires: expiresAt,
-		path: '/'
+		path: '/',
+		secure: import.meta.env.PROD
 	});
 }
 
