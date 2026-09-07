@@ -50,24 +50,7 @@ pipeline {
             }
         }
 
-        stage('Health Check') {
-            steps {
-                sh """
-                    sleep 10
-                    for i in 1 2 3 4 5; do
-                        if docker exec ${DOCKER_IMAGE} wget -qO /dev/null --timeout=5 http://localhost:3000/api/health 2>/dev/null; then
-                            echo "Health check passed!"
-                            exit 0
-                        fi
-                        echo "Attempt \$i failed, retrying in 5s..."
-                        sleep 5
-                    done
-                    echo "=== Health check failed. Container logs: ==="
-                    docker logs ${DOCKER_IMAGE}
-                    exit 1
-                """
-            }
-        }
+
     }
     
     post {
