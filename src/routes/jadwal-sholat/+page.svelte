@@ -255,7 +255,7 @@
 					</div>
 					
 					<div>
-						<div class="text-4xl md:text-6xl font-black tabular-nums tracking-tight">
+						<div class="text-3xl md:text-6xl font-black tabular-nums tracking-tight">
 							{formatTime(currentTime)}
 						</div>
 						<div class="text-primary-foreground/80 mt-2 font-medium flex items-center gap-2 text-sm md:text-base">
@@ -270,8 +270,8 @@
 
 				<!-- Right side: Dynamic Prayer Status Info -->
 				{#if prayerStatus}
-					<div class="bg-white/15 backdrop-blur-md border border-white/25 p-5 md:p-6 rounded-3xl min-w-[260px] shadow-inner text-center space-y-2">
-						<p class="text-primary-foreground/90 text-xs md:text-sm font-bold uppercase tracking-wider">
+					<div class="bg-white/15 backdrop-blur-md border border-white/25 p-4 md:p-6 rounded-3xl min-w-[240px] md:min-w-[260px] shadow-inner text-center space-y-1.5 md:space-y-2">
+						<p class="text-primary-foreground/90 text-[10px] md:text-sm font-bold uppercase tracking-wider">
 							{#if prayerStatus.state === 'entered'}
 								WAKTU SHOLAT MASUK
 							{:else if prayerStatus.state === 'passed_recently'}
@@ -285,23 +285,23 @@
 
 						{#if prayerStatus.state === 'entered'}
 							<div class="py-1 space-y-1">
-								<div class="text-2xl md:text-3xl font-black text-white leading-tight animate-bounce">
+								<div class="text-xl md:text-3xl font-black text-white leading-tight animate-bounce">
 									Waktu {prayerStatus.prayer.name} Masuk!
 								</div>
-								<p class="text-xs text-white/90 font-medium">Saatnya menunaikan ibadah sholat</p>
+								<p class="text-[10px] md:text-xs text-white/90 font-medium">Saatnya menunaikan ibadah sholat</p>
 							</div>
 						{:else if prayerStatus.state === 'passed_recently'}
 							<div class="py-1 space-y-1">
-								<div class="text-lg md:text-xl font-black text-amber-200 leading-tight">
+								<div class="text-base md:text-xl font-black text-amber-200 leading-tight">
 									{prayerStatus.headline}
 								</div>
-								<p class="text-xs text-white/80 font-medium">Waktu sholat {prayerStatus.prayer.name}</p>
+								<p class="text-[10px] md:text-xs text-white/80 font-medium">Waktu sholat {prayerStatus.prayer.name}</p>
 							</div>
 						{:else}
-							<div class="text-4xl md:text-5xl font-black font-mono tabular-nums tracking-tighter drop-shadow-sm">
+							<div class="text-2xl sm:text-3xl md:text-5xl font-black font-mono tabular-nums tracking-tighter drop-shadow-sm">
 								{prayerStatus.diffStr}
 							</div>
-							<div class="text-sm font-bold text-white">
+							<div class="text-xs md:text-sm font-bold text-white">
 								{prayerStatus.headline}
 							</div>
 						{/if}

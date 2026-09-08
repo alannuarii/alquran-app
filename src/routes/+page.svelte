@@ -211,38 +211,38 @@
 						<p class="text-sm font-medium text-muted-foreground animate-pulse">Memuat jadwal waktu sholat...</p>
 					{:else if prayerStatus}
 						{#if prayerStatus.state === 'entered'}
-							<div class="flex flex-wrap items-baseline gap-2">
-								<h3 class="text-lg md:text-xl font-black text-emerald-600 dark:text-emerald-400 animate-pulse">
+							<div class="flex flex-wrap items-baseline gap-1.5 md:gap-2">
+								<h3 class="text-base md:text-lg font-black text-emerald-600 dark:text-emerald-400 animate-pulse">
 									Waktu Sholat {prayerStatus.prayer.name} Telah Masuk!
 								</h3>
-								<span class="text-xs font-bold bg-emerald-500/10 text-emerald-600 px-2 py-0.5 rounded-md">
+								<span class="text-[10px] md:text-xs font-bold bg-emerald-500/10 text-emerald-600 px-2 py-0.5 rounded-md">
 									Pukul {prayerStatus.prayer.time}
 								</span>
 							</div>
 						{:else if prayerStatus.state === 'passed_recently'}
-							<div class="flex flex-wrap items-baseline gap-2">
-								<h3 class="text-lg md:text-xl font-bold text-foreground">
+							<div class="flex flex-wrap items-baseline gap-1.5 md:gap-2">
+								<h3 class="text-base md:text-lg font-bold text-foreground">
 									Waktu sholat <span class="text-amber-600 dark:text-amber-400 font-extrabold">{prayerStatus.prayer.name}</span> telah lewat {prayerStatus.passedMins} menit
 								</h3>
-								<span class="text-xs font-medium text-muted-foreground">
+								<span class="text-[10px] md:text-xs font-medium text-muted-foreground">
 									(Pukul {prayerStatus.prayer.time})
 								</span>
 							</div>
 						{:else if prayerStatus.state === 'approaching'}
-							<div class="flex flex-wrap items-baseline gap-2">
-								<h3 class="text-lg md:text-xl font-extrabold text-foreground">
+							<div class="flex flex-wrap items-baseline gap-1.5 md:gap-2">
+								<h3 class="text-base md:text-lg font-extrabold text-foreground">
 									{prayerStatus.headline}
 								</h3>
-								<span class="text-sm font-mono font-bold text-primary bg-primary/10 px-2 py-0.5 rounded-md animate-pulse">
+								<span class="text-xs md:text-sm font-mono font-bold text-primary bg-primary/10 px-2 py-0.5 rounded-md animate-pulse">
 									{prayerStatus.diffStr} lagi
 								</span>
 							</div>
 						{:else}
-							<div class="flex flex-wrap items-baseline gap-2">
-								<h3 class="text-lg md:text-xl font-extrabold text-foreground">
+							<div class="flex flex-wrap items-baseline gap-1.5 md:gap-2">
+								<h3 class="text-base md:text-lg font-extrabold text-foreground">
 									Menuju <span class="text-primary font-black">{prayerStatus.prayer.name}</span> ({prayerStatus.prayer.time})
 								</h3>
-								<span class="text-sm font-mono font-bold text-emerald-600 dark:text-emerald-400 bg-emerald-500/10 px-2 py-0.5 rounded-md">
+								<span class="text-xs md:text-sm font-mono font-bold text-emerald-600 dark:text-emerald-400 bg-emerald-500/10 px-2 py-0.5 rounded-md">
 									{prayerStatus.diffStr} lagi
 								</span>
 							</div>
