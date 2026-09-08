@@ -78,7 +78,25 @@
 			const res = await fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lon}`);
 			const data = await res.json();
 			
-			let cityName = data.address.city || data.address.county || data.address.town || data.address.state;
+			const candidates = [
+				data.address.county,
+				data.address.city,
+				data.address.municipality,
+				data.address.town,
+				data.address.state
+			];
+			
+			let cityName = '';
+			for (const name of candidates) {
+				if (name && typeof name === 'string') {
+					const lower = name.toLowerCase();
+					if (!lower.includes('kelurahan') && !lower.includes('desa') && !lower.includes('kecamatan')) {
+						cityName = name;
+						break;
+					}
+				}
+			}
+			
 			if (!cityName) throw new Error('Kota tidak ditemukan');
 			
 			cityName = cityName.replace(/kota|kabupaten|selatan|utara|timur|barat|pusat/gi, '').trim();

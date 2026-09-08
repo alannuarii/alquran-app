@@ -75,9 +75,27 @@
 					try {
 						const res = await fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${pos.coords.latitude}&lon=${pos.coords.longitude}`);
 						const data = await res.json();
-						let cityName = data.address.city || data.address.county || data.address.town || data.address.state || 'Jakarta';
-						cityName = cityName.replace(/kota|kabupaten|selatan|utara|timur|barat|pusat/gi, '').trim();
+						const candidates = [
+							data.address.county,
+							data.address.city,
+							data.address.municipality,
+							data.address.town,
+							data.address.state,
+							'Jakarta'
+						];
 						
+						let cityName = 'Jakarta';
+						for (const name of candidates) {
+							if (name && typeof name === 'string') {
+								const lower = name.toLowerCase();
+								if (!lower.includes('kelurahan') && !lower.includes('desa') && !lower.includes('kecamatan')) {
+									cityName = name;
+									break;
+								}
+							}
+						}
+						
+						cityName = cityName.replace(/kota|kabupaten|selatan|utara|timur|barat|pusat/gi, '').trim();
 						const searchRes = await fetch(`https://api.myquran.com/v2/sholat/kota/cari/${encodeURIComponent(cityName)}`);
 						const searchData = await searchRes.json();
 						if (searchData.status && searchData.data && searchData.data.length > 0) {
