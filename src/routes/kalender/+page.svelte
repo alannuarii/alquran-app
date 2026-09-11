@@ -31,14 +31,14 @@
 
   function extractHijriShort(hijriStr: string) {
       if (!hijriStr) return '';
-      const parts = hijriStr.split(' ');
-      let month = parts[1];
-      if (parts.length > 3 && isNaN(parseInt(parts[2]))) {
-          month = parts[1] + ' ' + parts[2];
-      }
+      const parts = hijriStr.trim().split(/\s+/);
+      const day = parts[0];
+      const monthWords = parts.slice(1).filter((w) => isNaN(Number(w)) && w !== 'H');
+      const month = monthWords.join(' ');
       
       const abbreviations: Record<string, string> = {
           'Muharam': 'Muh',
+          'Muharram': 'Muh',
           'Safar': 'Saf',
           'Rabiulawal': 'Rab.A',
           'Rabiul Awal': 'Rab.A',
@@ -50,14 +50,18 @@
           'Jumadil Akhir': 'Jum.Ak',
           'Rajab': 'Raj',
           'Syakban': 'Sya',
+          "Sya'ban": 'Sya',
           'Ramadan': 'Ram',
+          'Ramadhan': 'Ram',
           'Syawal': 'Syw',
           'Zulkaidah': 'Zul.K',
+          "Dzulqa'dah": 'Dzul.Q',
           'Zulhijah': 'Zul.H',
+          'Dzulhijjah': 'Dzul.H'
       };
       
-      const shortMonth = abbreviations[month] || month.substring(0, 3);
-      return `${parts[0]} ${shortMonth}`;
+      const shortMonth = abbreviations[month] || (month ? month.substring(0, 3) : '');
+      return `${day} ${shortMonth}`.trim();
   }
 </script>
 

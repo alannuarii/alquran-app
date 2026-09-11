@@ -3,7 +3,7 @@
 	import type { PageData } from './$types';
 	import { Play, Pause, ArrowRight, Book, Target, Sparkles, Clock, MapPin, CalendarDays } from 'lucide-svelte';
 	import { getPrayerStatus, type PrayerStatusResult } from '$lib/prayer';
-	import { fetchHijriOffset } from '$lib/calendar';
+	import { fetchHijriOffset, formatHijriDate } from '$lib/calendar';
 
 	let { data }: { data: PageData } = $props();
 
@@ -26,18 +26,9 @@
 		currentTime.toLocaleDateString('id-ID', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' }).replace(/\bMinggu\b/gi, 'Ahad')
 	);
 
-	const hijriDateFormatted = $derived.by(() => {
-		const d = new Date(currentTime);
-		d.setDate(d.getDate() + hijriOffset);
-		const formatter = new Intl.DateTimeFormat('id-ID-u-ca-islamic-umalqura', {
-			day: 'numeric',
-			month: 'long',
-			year: 'numeric'
-		});
-		let res = formatter.format(d);
-		if (!res.includes('H')) res += ' H';
-		return res;
-	});
+	const hijriDateFormatted = $derived(
+		formatHijriDate(currentTime, hijriOffset)
+	);
 
 	const getTodayParts = () => {
 		const now = new Date();
@@ -195,16 +186,19 @@
 	<section class="bg-card border border-border/80 hover:border-primary/40 rounded-3xl p-5 md:p-6 shadow-sm hover:shadow-md transition-all relative overflow-hidden group">
 		<div class="flex flex-col md:flex-row md:items-center justify-between gap-5">
 			<!-- Left side info -->
-			<div class="flex items-center gap-4">
+			<div class="flex items-center gap-3.5 sm:gap-4 min-w-0 flex-1">
 				<div class="w-12 h-12 rounded-2xl {prayerStatus?.state === 'entered' ? 'bg-emerald-500 text-white animate-bounce' : 'bg-primary/10 text-primary'} flex items-center justify-center shrink-0 transition-colors">
 					<Clock size={24} />
 				</div>
-				<div class="space-y-1">
-					<div class="flex items-center gap-2">
-						<span class="text-xs font-bold uppercase tracking-wider text-muted-foreground">Pengingat Sholat</span>
-						<span class="inline-flex items-center gap-1 text-[11px] font-semibold text-primary bg-primary/10 px-2 py-0.5 rounded-full">
-							<MapPin size={11} />
-							<span>{currentCity}</span>
+				<div class="space-y-1 min-w-0 flex-1">
+					<div class="flex items-center gap-2 min-w-0">
+						<span class="text-xs font-bold uppercase tracking-wider text-muted-foreground shrink-0">Pengingat Sholat</span>
+						<span 
+							class="inline-flex items-center gap-1.5 text-xs font-semibold text-primary bg-primary/10 px-2.5 py-0.5 rounded-full max-w-[130px] xs:max-w-[170px] sm:max-w-[260px] min-w-0 shrink"
+							title={currentCity}
+						>
+							<MapPin class="w-3.5 h-3.5 shrink-0 text-primary" />
+							<span class="truncate whitespace-nowrap">{currentCity}</span>
 						</span>
 					</div>
 					{#if prayerLoading}
