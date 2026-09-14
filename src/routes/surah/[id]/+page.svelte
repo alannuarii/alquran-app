@@ -3,6 +3,7 @@
 	import { Play, Pause, BookmarkPlus, Info, Type, ChevronLeft } from 'lucide-svelte';
 	import { slide } from 'svelte/transition';
 	import { page } from '$app/stores';
+	import { decodeHtml } from '$lib/utils';
 	
 	let { data }: { data: PageData } = $props();
 	let surah = $derived(data.surah);
@@ -189,7 +190,7 @@
 		<div class="relative z-10">
 			<p class="font-uthmani text-4xl mb-2" dir="rtl">{arabNames[surah.number] ?? surah.name_latin}</p>
 			<h1 class="text-2xl font-bold">{surah.name_latin}</h1>
-			<p class="text-primary-foreground/80 text-sm mt-1">{surah.translation}</p>
+			<p class="text-primary-foreground/80 text-sm mt-1">{decodeHtml(surah.translation)}</p>
 			<div class="flex items-center justify-center gap-4 text-sm font-medium border-t border-primary-foreground/20 pt-4 mt-4">
 				<span class="uppercase tracking-widest">{surah.revelation === 'Makkiyah' ? 'Makkah' : 'Madinah'}</span>
 				<span>&bull;</span>
@@ -318,14 +319,14 @@
 
 				<!-- Terjemahan -->
 				<p class="text-muted-foreground leading-relaxed text-sm px-2">
-					{ayah.translation}
+					{decodeHtml(ayah.translation)}
 				</p>
 
 				<!-- Tafsir Section -->
 				{#if activeTafsir === ayah.ayah_number}
 					<div transition:slide={{ duration: 200 }} class="bg-muted/50 border border-border rounded-xl p-4 mt-4 text-sm">
 						<h4 class="font-bold text-primary mb-2 text-xs uppercase tracking-wider">Tafsir Kemenag (Ringkas)</h4>
-						<p class="text-foreground leading-relaxed">{ayah.tafsir?.kemenag?.short ?? 'Tafsir tidak tersedia.'}</p>
+						<p class="text-foreground leading-relaxed">{ayah.tafsir?.kemenag?.short ? decodeHtml(ayah.tafsir.kemenag.short) : 'Tafsir tidak tersedia.'}</p>
 					</div>
 				{/if}
 				

@@ -1,3 +1,5 @@
+import { decodeHtmlEntities } from '$lib/utils';
+
 const API_BASE = 'https://api.myquran.com/v3';
 
 async function safeFetch(url: string, timeoutMs = 8000) {
@@ -8,7 +10,7 @@ async function safeFetch(url: string, timeoutMs = 8000) {
 		clearTimeout(timeoutId);
 		if (!res.ok) throw new Error(`HTTP error! status: ${res.status}`);
 		const data = await res.json();
-		return data.data;
+		return decodeHtmlEntities(data.data);
 	} catch (err) {
 		clearTimeout(timeoutId);
 		throw err;
@@ -33,7 +35,7 @@ export async function fetchQuranSurahDetail(surahNumber: number, page: number = 
 		if (!res.ok) throw new Error(`HTTP error! status: ${res.status}`);
 		const result = await res.json();
 		return {
-			...result.data,
+			...decodeHtmlEntities(result.data),
 			pagination: result.pagination
 		};
 	} catch (e) {
