@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { onMount, onDestroy } from 'svelte';
 	import type { PageData } from './$types';
-	import { Play, Pause, ArrowRight, Book, Target, Sparkles, Clock, MapPin, CalendarDays } from 'lucide-svelte';
+	import { Play, Pause, ArrowRight, Target, Sparkles, Clock, MapPin, CalendarDays } from 'lucide-svelte';
 	import { getPrayerStatus, type PrayerStatusResult } from '$lib/prayer';
 	import { fetchHijriOffset, formatHijriDate } from '$lib/calendar';
 
@@ -260,92 +260,55 @@
 		</div>
 	</section>
 
-	<!-- Quick Access Cards Section -->
-	{#if data.activeKhatamPlan || data.userLastRead}
-		<div class="grid grid-cols-1 {data.activeKhatamPlan && data.userLastRead ? 'md:grid-cols-2' : 'w-full'} gap-6">
-			<!-- Active Khatam Program Card -->
-			{#if data.activeKhatamPlan}
-				<section class="w-full bg-gradient-to-br from-emerald-600 to-teal-700 text-white rounded-3xl p-6 md:p-7 shadow-lg shadow-emerald-500/15 relative overflow-hidden flex flex-col justify-between group hover:shadow-emerald-500/25 transition-all">
-					<div class="absolute -right-6 -bottom-6 opacity-10 group-hover:scale-105 transition-transform duration-500">
-						<Target size={160} />
+	<!-- Active Khatam Program Card Section -->
+	{#if data.activeKhatamPlan}
+		<section class="w-full bg-gradient-to-br from-emerald-600 to-teal-700 text-white rounded-3xl p-6 md:p-7 shadow-lg shadow-emerald-500/15 relative overflow-hidden flex flex-col justify-between group hover:shadow-emerald-500/25 transition-all">
+			<div class="absolute -right-6 -bottom-6 opacity-10 group-hover:scale-105 transition-transform duration-500">
+				<Target size={160} />
+			</div>
+			<div class="relative z-10 space-y-4">
+				<div class="flex items-center justify-between">
+					<div class="flex items-center gap-2 text-emerald-100 text-xs font-bold uppercase tracking-wider">
+						<Target size={15} />
+						<span>Program Khatam Aktif</span>
 					</div>
-					<div class="relative z-10 space-y-4">
-						<div class="flex items-center justify-between">
-							<div class="flex items-center gap-2 text-emerald-100 text-xs font-bold uppercase tracking-wider">
-								<Target size={15} />
-								<span>Program Khatam Aktif</span>
-							</div>
-							<span class="bg-white/20 text-white px-3 py-1 rounded-full text-xs font-extrabold backdrop-blur-md">
-								{data.activeKhatamPlan.progressPercentage.toFixed(1)}%
-							</span>
-						</div>
+					<span class="bg-white/20 text-white px-3 py-1 rounded-full text-xs font-extrabold backdrop-blur-md">
+						{data.activeKhatamPlan.progressPercentage.toFixed(1)}%
+					</span>
+				</div>
 
-						<div>
-							<h2 class="text-xl md:text-2xl font-bold line-clamp-1">{data.activeKhatamPlan.title}</h2>
-							<p class="text-emerald-100 text-sm mt-1">
-								Lanjut ke: <span class="font-bold text-white underline decoration-emerald-300 decoration-2 underline-offset-2">Surah Ke-{data.activeKhatamPlan.nextSurah} Ayat {data.activeKhatamPlan.nextAyah}</span>
-							</p>
-						</div>
+				<div>
+					<h2 class="text-xl md:text-2xl font-bold line-clamp-1">{data.activeKhatamPlan.title}</h2>
+					<p class="text-emerald-100 text-sm mt-1">
+						Lanjut ke: <span class="font-bold text-white underline decoration-emerald-300 decoration-2 underline-offset-2">Surah Ke-{data.activeKhatamPlan.nextSurah} Ayat {data.activeKhatamPlan.nextAyah}</span>
+					</p>
+				</div>
 
-						<!-- Mini Progress Bar -->
-						<div class="space-y-2 pt-1">
-							<div class="h-2.5 w-full bg-black/20 rounded-full overflow-hidden p-0.5">
-								<div 
-									class="h-full bg-white rounded-full transition-all duration-700 shadow-sm" 
-									style="width: {data.activeKhatamPlan.progressPercentage}%"
-								></div>
-							</div>
-							<div class="flex justify-between text-xs text-emerald-100/90 font-medium">
-								<span>{data.activeKhatamPlan.totalAyahsRead.toLocaleString('id-ID')} / 6.236 Ayat</span>
-								<span>{data.activeKhatamPlan.sessionCount} Sesi Tercatat</span>
-							</div>
-						</div>
-
-						<div class="pt-2">
-							<a 
-								href="/surah/{data.activeKhatamPlan.nextSurah}?page={data.activeKhatamPlan.targetPage}&khatam_plan_id={data.activeKhatamPlan.id}#ayah-{data.activeKhatamPlan.nextAyah}" 
-								class="inline-flex items-center gap-2 bg-white text-emerald-800 hover:bg-emerald-50 transition-all font-bold px-6 py-3 rounded-full text-sm shadow-md hover:shadow-lg hover:-translate-y-0.5"
-							>
-								<span>Lanjutkan Khatam</span>
-								<ArrowRight size={16} />
-							</a>
-						</div>
+				<!-- Mini Progress Bar -->
+				<div class="space-y-2 pt-1">
+					<div class="h-2.5 w-full bg-black/20 rounded-full overflow-hidden p-0.5">
+						<div 
+							class="h-full bg-white rounded-full transition-all duration-700 shadow-sm" 
+							style="width: {data.activeKhatamPlan.progressPercentage}%"
+						></div>
 					</div>
-				</section>
-			{/if}
-
-			<!-- Last Read Reguler Card -->
-			{#if data.userLastRead}
-				<section class="bg-gradient-to-br from-primary/95 to-primary text-primary-foreground rounded-3xl p-6 md:p-7 shadow-lg shadow-primary/15 relative overflow-hidden flex flex-col justify-between group hover:shadow-primary/25 transition-all">
-					<div class="absolute -right-4 -bottom-4 opacity-10 group-hover:scale-105 transition-transform duration-500">
-						<Book size={150} />
+					<div class="flex justify-between text-xs text-emerald-100/90 font-medium">
+						<span>{data.activeKhatamPlan.totalAyahsRead.toLocaleString('id-ID')} / 6.236 Ayat</span>
+						<span>{data.activeKhatamPlan.sessionCount} Sesi Tercatat</span>
 					</div>
-					<div class="relative z-10 space-y-4">
-						<div class="flex items-center gap-2 text-primary-foreground/80 text-xs font-bold uppercase tracking-wider">
-							<Book size={15} />
-							<span>Terakhir Dibaca</span>
-						</div>
+				</div>
 
-						<div>
-							<h2 class="text-xl md:text-2xl font-bold">Surah Ke-{data.userLastRead.surahNumber}</h2>
-							<p class="text-primary-foreground/90 text-sm mt-1">
-								Terakhir: Ayat {data.userLastRead.ayahNumber} &bull; Lanjut: <span class="font-bold text-white">Ayat {data.userLastRead.nextAyah}</span>
-							</p>
-						</div>
-
-						<div class="pt-4">
-							<a 
-								href="/surah/{data.userLastRead.nextSurah}?page={data.userLastRead.targetPage}#ayah-{data.userLastRead.nextAyah}" 
-								class="inline-flex items-center gap-2 bg-white/20 hover:bg-white/30 transition-all text-white font-bold px-6 py-3 rounded-full text-sm backdrop-blur-md hover:-translate-y-0.5"
-							>
-								<span>Lanjutkan Membaca</span>
-								<ArrowRight size={16} />
-							</a>
-						</div>
-					</div>
-				</section>
-			{/if}
-		</div>
+				<div class="pt-2">
+					<a 
+						href="/surah/{data.activeKhatamPlan.nextSurah}?page={data.activeKhatamPlan.targetPage}&khatam_plan_id={data.activeKhatamPlan.id}#ayah-{data.activeKhatamPlan.nextAyah}" 
+						class="inline-flex items-center gap-2 bg-white text-emerald-800 hover:bg-emerald-50 transition-all font-bold px-6 py-3 rounded-full text-sm shadow-md hover:shadow-lg hover:-translate-y-0.5"
+					>
+						<span>Lanjutkan Khatam</span>
+						<ArrowRight size={16} />
+					</a>
+				</div>
+			</div>
+		</section>
 	{/if}
 
 	<!-- Ayat Hari Ini Section (Polished for Desktop) -->

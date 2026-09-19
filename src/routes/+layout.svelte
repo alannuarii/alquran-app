@@ -3,7 +3,7 @@
 	import type { LayoutData } from './$types';
 	import { 
 		Home, BookOpen, Compass, Target, User, Moon, Sun, Leaf, 
-		CalendarDays, Clock, LayoutGrid, X, ChevronRight 
+		CalendarDays, Clock, LayoutGrid, X, ChevronRight, BookMarked, Scroll 
 	} from 'lucide-svelte';
 	import { page, navigating } from '$app/stores';
 	
@@ -30,6 +30,8 @@
 	const desktopNavItems = [
 		{ href: '/', icon: Home, label: 'Beranda' },
 		{ href: '/surah', icon: BookOpen, label: 'Bacaan' },
+		{ href: '/doa', icon: BookMarked, label: 'Doa Harian' },
+		{ href: '/hadits', icon: Scroll, label: 'Hadits' },
 		{ href: '/khatam', icon: Target, label: 'Khatam' },
 		{ href: '/jadwal-sholat', icon: Clock, label: 'Jadwal Sholat' },
 		{ href: '/qibla', icon: Compass, label: 'Kiblat' },
@@ -43,6 +45,8 @@
 	];
 
 	const moreMenuItems = [
+		{ href: '/doa', icon: BookMarked, label: 'Kumpulan Doa', desc: 'Doa harian & pilihan berdasarkan kategori' },
+		{ href: '/hadits', icon: Scroll, label: 'Kumpulan Hadits', desc: 'Hadits Arba\'in & 9 Kitab Perawi' },
 		{ href: '/jadwal-sholat', icon: Clock, label: 'Jadwal Sholat', desc: 'Waktu sholat akurat seluruh kota' },
 		{ href: '/qibla', icon: Compass, label: 'Arah Kiblat', desc: 'Kompas penunjuk arah Ka\'bah' },
 		{ href: '/kalender', icon: CalendarDays, label: 'Kalender Hijriah', desc: 'Penanggalan Hijriah & Masehi' },
