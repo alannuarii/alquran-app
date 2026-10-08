@@ -45,7 +45,7 @@ pipeline {
                 sh """
                 docker stop ${DOCKER_IMAGE} || true
                 docker rm ${DOCKER_IMAGE} || true
-                docker run -d --name ${DOCKER_IMAGE} --restart always -p ${DOCKER_PORT}:3000 --env-file .env ${DOCKER_IMAGE}:latest
+                docker run -d --name ${DOCKER_IMAGE} --restart always --network=postgres-net -p ${DOCKER_PORT}:3000 --env-file .env ${DOCKER_IMAGE}:latest
                 """
             }
         }
